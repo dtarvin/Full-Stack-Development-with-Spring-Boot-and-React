@@ -4,11 +4,20 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+//@RepositoryRestResource(path="vehicles") - changes endpoint from cars to vehicles
+
+@RepositoryRestResource // for when including queries with parameters
 public interface CarRepository extends CrudRepository<Car, Long> {
 //	List<Car> findByBrand(String brand);
 	
-	List<Car> findByColor(String color);
+//	List<Car> findByColor(String color);
+	
+	List<Car> findByBrand(@Param("brand") String brand);
+	
+	List<Car> findByColor(@Param("color") String color);
 	
 	List<Car> findByYear(int year);
 	
@@ -18,8 +27,8 @@ public interface CarRepository extends CrudRepository<Car, Long> {
 	
 	List<Car> findByBrandOrderByYearAsc(String brand);
 	
-	@Query("select c from Car c where c.brand = ?1")
-	List<Car> findByBrand(String brand);
+//	@Query("select c from Car c where c.brand = ?1")
+//	List<Car> findByBrand(String brand);
 	
 	@Query("select c from Car c where c.brand like %?1")
 	List<Car> findByBrandEndsWith(String brand);
